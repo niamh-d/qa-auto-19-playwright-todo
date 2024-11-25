@@ -1,4 +1,5 @@
-import { Locator, Page } from '@playwright/test'
+import { expect, Locator, Page } from '@playwright/test'
+import { faker } from '@faker-js/faker'
 
 const url = 'https://todo-app.tallinn-learning.ee/'
 
@@ -17,7 +18,23 @@ export default class MainPage {
     this.deleteButton = page.getByTestId('todo-item-button')
   }
 
-  async open(): Promise<void> {
+  public async open(): Promise<void> {
     await this.page.goto(this.url)
+  }
+
+  public async deleteTask(): Promise<void> {
+    await this.toDoItem.hover()
+    await this.deleteButton.click()
+  }
+
+  public async createMultipleTasks(numTasks: number): Promise<void> {
+    for (let i = 0; i < numTasks; i++) {
+      await this.createTask()
+    }
+  }
+
+  public async createTask(): Promise<void> {
+    await this.inputField.fill(faker.lorem.word(6))
+    await this.inputField.press('Enter')
   }
 }

@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import MainPage from '../pages/main-page'
+import { faker } from '@faker-js/faker'
 
 test.describe('Todo app', () => {
   let mainPage: MainPage
@@ -10,17 +11,21 @@ test.describe('Todo app', () => {
   })
   test.describe('To do app tests', () => {
     test('Create a task and verify that task exists', async ({}) => {
-      await mainPage.inputField.fill('test')
-      await mainPage.inputField.press('Enter')
+      await mainPage.createTask()
       await expect(mainPage.toDoItem).toBeVisible()
     })
 
     test('Create a task, delete and verify it is not visible', async ({}) => {
-      await mainPage.inputField.fill('test')
-      await mainPage.inputField.press('Enter')
-      await mainPage.toDoItem.hover()
-      await mainPage.deleteButton.click()
+      await mainPage.createTask()
+      await mainPage.deleteTask()
       await expect(mainPage.toDoItem).not.toBeVisible()
+    })
+
+    test('Create three tasks and verify number of existing tasks', async ({}) => {
+      const expectedNumTasks = faker.number.int({ min: 2, max: 10 })
+      await mainPage.createMultipleTasks(expectedNumTasks)
+      const actual = await mainPage.toDoItem.count()
+      expect(actual).toBe(expectedNumTasks)
     })
   })
 })
