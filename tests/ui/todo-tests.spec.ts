@@ -9,10 +9,18 @@ test.describe('Todo app', () => {
     await mainPage.open()
   })
   test.describe('To do app tests', () => {
-    test('Create a task ad verify that task exists', async ({}) => {
+    test('Create a task and verify that task exists', async ({}) => {
       await mainPage.inputField.fill('test')
       await mainPage.inputField.press('Enter')
       await expect(mainPage.toDoItem).toBeVisible()
+    })
+
+    test('Create a task, delete and verify it is not visible', async ({}) => {
+      await mainPage.inputField.fill('test')
+      await mainPage.inputField.press('Enter')
+      await mainPage.toDoItem.hover()
+      await mainPage.deleteButton.click()
+      await expect(mainPage.toDoItem).not.toBeVisible()
     })
   })
 })
