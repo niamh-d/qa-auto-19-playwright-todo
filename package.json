@@ -2,13 +2,28 @@
   "name": "to-do-app",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "format": "prettier --write \"tests/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "check": "prettier --check \"tests/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "lint": "eslint \"tests/**/*.{ts,tsx,js,jsx}\"",
+    "prepare": "husky"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.49.0",
-    "@types/node": "^22.9.3"
+    "@types/node": "^22.9.3",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "eslint": "^8.57.1",
+    "globals": "^15.11.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "typescript": "^5.6.3",
+    "husky": "^9.1.6"
   }
 }
