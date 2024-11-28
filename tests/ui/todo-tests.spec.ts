@@ -21,11 +21,19 @@ test.describe('Todo app', () => {
       await expect(mainPage.toDoItem).not.toBeVisible()
     })
 
-    test('Create three tasks and verify number of existing tasks', async ({}) => {
+    test('Create multiple tasks and verify right number of existing tasks', async ({}) => {
       const expectedNumTasks = faker.number.int({ min: 2, max: 10 })
       await mainPage.createMultipleTasks(expectedNumTasks)
-      const actual = await mainPage.toDoItem.count()
-      expect(actual).toBe(expectedNumTasks)
+      await mainPage.verifyCountItems(mainPage.toDoItem, expectedNumTasks)
+    })
+
+    test('Create two tasks, check one as completed and verify active one', async ({ page }) => {
+      await mainPage.createTask('first item')
+      await mainPage.createTask('second item')
+      await mainPage.verifyCountItems(mainPage.toDoItem, 2)
+      const firstItem = page.getByTestId('todo-item-label').filter({ hasText: 'first item' })
+      await mainPage.markAsCompleted(firstItem)
+      await mainPage.verifyMarkedAsCompleted(firstItem)
     })
   })
 })
